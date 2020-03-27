@@ -1,0 +1,161 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define ERROR 0
+#define OK 1
+
+#define FALSE -1
+#define TRUE 1
+
+#define MAX 100
+
+typedef struct Sq {
+	int elem[MAX] ;
+	int length ; //长度;
+} List;
+
+int menu_select();	//菜单驱动程序
+int InitList(List *L); //初始化顺序表
+void TraveList(List L); //显示顺序表
+void CreateList(List *L); //创建顺序表
+void Delete(List *L  , int  item); //删除元素
+
+// 选择输出的内容;
+int menu_select()	//菜单驱动程序
+{
+	int sn;
+	printf("实验一运行系统\n");		//显示菜单
+	printf("==============================\n");
+	printf("1、顺序表的建立\n");
+	printf("2、顺序表的删除\n");
+	printf("3、顺序表的输出\n");
+	printf("0、退出实验一运行系统\n");
+	printf("==============================\n");
+	printf("请选择0--3:");
+
+```
+for ( ; ; )		//菜单功能选择
+		{
+	  scanf("%d", &sn);
+	  getchar();  //吃掉回车;
+	if (sn < 0 || sn > 3)
+		printf("\n输入选择错误，请重新选择 0--3:");
+	else
+		break;
+    	}
+return sn; //返回命令;
+```
+
+}
+
+int InitList(List *L) { //初始化顺序表;
+	L->length = 0;  //初始化长度;
+	return 1;  // ???
+}
+
+/*
+ TODO: 输出顺序表的内容
+ 功能：输出顺序表的内容，每个元素之间用空格隔开，顺序表为1 2 3 4 5 6
+ 则输出：1 2 3 4 5 6 输出完成后进行换行。
+ 参数：List L 是需要操作的顺序表
+ 返回值：无
+ */
+void TraveList(List L) {  // 传值的方式输入;
+         int i=0;
+            while(i!=L.length)
+                {
+                     printf ( "%d "  , L.elem[i] );// 非指针就使用.
+                     i++;
+
+```
+            }
+            printf("\n");
+```
+
+}
+/*
+ TODO: 创建顺序表
+ 功能：提示("请输入元素值:")，建立长度至少为10，元素均为int型的顺序表；
+ 创建顺序表按0 + 回车，完成创建，如输入： 1 2 3 4 5 6 0 回车
+ 则生成顺序表：1 2 3 4 5 6
+ 参数：List *L 是需要操作的单链表
+ 返回值：无。
+ */
+void CreateList(List *L) { // 传入地址的方式 ;
+	int loop = 1;
+	int i = 0;
+	int e;
+	printf("请输入元素值:");
+	while(1)
+    {
+          scanf("%d",&e);
+             if(e==0 && 9<i)
+          {
+                      break;
+          }
+          L->elem[i]=e;
+          i++;
+    }
+    L->length=i;
+}
+
+/*
+ TODO: 删除表中与Item值相同的元素
+ 功能：从键盘输入一个整数item，删除表中与Item数字相同的元素
+ 比如：表为：6 5 4 3 2 1，录入2，则删除2，新的顺序表为：6 5 4 3 1 // 顺序不变;
+ 参数：List *L 是需要操作的表，item是指定删除元素的数值
+ 返回值：空
+ */
+void Delete(List *L , int item) {
+
+```
+int *p1, *p2;
+int len = L->length;
+
+p1 = &L->elem[0];   // p1 指向数组开头
+for (p2 = p1; p2 < (L->elem + len); p2++) {     // 用p2遍历整个数组
+    if (*p2 != item) {      // 检查数据合法
+        *p1++ = *p2;        // 将合法数据搬运到p1，并且p1移位，准备下次接收
+    } else {
+        L->length--;        // 舍弃不合法的数据，并将数组长度减短
+    }
+}
+if(len==L->length)
+    printf("ERROR");
+else
+    printf("OK");
+```
+
+}
+
+void main() {
+	List L;
+	int item;
+	for (;;) {
+		switch (menu_select()) {  //选择进行得序号；
+		case 1:
+
+```
+		InitList(&L);
+		CreateList(&L);
+		break;
+	case 2:
+		printf("顺序表的删除\n");
+		printf("请输入要删除的标的元素item:");
+
+		scanf("%d", &item);
+		Delete(&L, item);
+		break;
+	case 3:
+		printf("顺序表的输出\n");
+		TraveList(L);
+		break;
+	case 0:
+		printf("再见!\n");
+		return;
+	}
+}
+```
+
+}
