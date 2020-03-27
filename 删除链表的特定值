@@ -1,0 +1,375 @@
+\#include <stdio.h>
+
+\#include <stdlib.h>
+
+\#include <string.h>
+
+typedef int elemType;
+
+typedef struct ListNode
+
+{
+
+​    int element;
+
+​    struct ListNode *next;
+
+} Node;
+
+/*
+
+ TODO:创建单链表
+
+ 功能：补全代码，完成创建单链表的功能，前台录入一串数据，用空格隔开，输入0后，按回车完成输入。
+
+ 如果输入数字小于 0，提示："输入数据非法，建立链表停止\n"；单链表创建成功提示："链表创建成功\n"
+
+ 如录入：1 2 3 4 5 6 7 8 9 10 0，回车，创建成功的链表为 1 2 3 4 5 6 7 8 9 10
+
+ 参数：Node *pNode 是需要操作的单链表
+
+ 返回值：链表创建成功返回链表，链表创建失败则返回null。
+
+ */
+
+Node *creatList(Node *pNode)
+
+{
+
+​    pNode = (Node *)malloc(sizeof(Node));//这道题的链表没有在主函数中给首节点分配内存
+
+​    Node *p,*q;
+
+​    q = pNode;
+
+​    int ne;
+
+​    scanf("%d",&ne);
+
+​    if(ne==0)
+
+​    {
+
+​        pNode = NULL;
+
+​        return pNode;
+
+​    }
+
+​    pNode->element = ne;
+
+​    pNode->next = NULL;
+
+​    while(1)
+
+​    {
+
+​        scanf("%d",&ne);
+
+​        if(ne==0)
+
+​        {
+
+​            break;
+
+​        }
+
+​        if(ne<0)
+
+​        {
+
+​            printf("输入数据非法，建立链表停止\n");
+
+​        }
+
+​        p = (Node *)malloc(sizeof(Node));
+
+​        p->element = ne;
+
+​        p->next = NULL;
+
+​        q->next = p;
+
+​        q = p;
+
+​    }
+
+​    printf("链表创建成功\n");
+
+​    return pNode;
+
+}
+
+//打印链表
+
+void printList(Node *pNode)
+
+{
+
+​    if (pNode == NULL)
+
+​    {
+
+​        printf("函链表为空，打印失败\n");
+
+​    }
+
+​    else
+
+​    {
+
+​        while (pNode != NULL)
+
+​        {
+
+​            printf("%d ", pNode->element);
+
+​            pNode = pNode->next;
+
+​        }
+
+​        printf("\n");
+
+​    }
+
+}
+
+//获取链表长度
+
+elemType sizeList(Node *pNode)
+
+{
+
+​    int i = 0;
+
+​    if (pNode == NULL)
+
+​    {
+
+​        //printf("链表为空，长度为0\n");
+
+​        return 0;
+
+​    }
+
+​    else
+
+​    {
+
+​        while (pNode != NULL)
+
+​        {
+
+​            i++;
+
+​            pNode = pNode->next;
+
+​        }
+
+​        return i;
+
+​    }
+
+}
+
+/*
+
+ TODO: 删除pos位置的节点
+
+ 功能：删除pos位置的节点，删除成功提示"删除pos=%d位置元素成功\n"
+
+ 如果pos值大于链表长度，或者小于0，删除失败提示("输入pos值非法，删除节点失败\n")
+
+ 删除成功之后，所有节点前提一位，如：1 2 3 4 5，pos = 3，
+
+ 删除后，链表为：1 2 4 5。
+
+ 参数：Node 是需要操作的单链表，pos是选择节点在链表中的位置
+
+ 返回值：删除成功返回新链表pNode，删除失败返回Null。
+
+ */
+
+Node *deletePosElement(Node *pNode, int pos)
+
+{
+
+​    Node *p = pNode,*q;
+
+​    int i = 1;
+
+​    int length = sizeList(pNode);
+
+​    //printf("链表中有%d个元素\n",length);
+
+​    if(length == 0)
+
+​    {
+
+​        printf("输入pos值非法，删除节点失败\n");
+
+​        return NULL;
+
+​    }
+
+​    if(pos > length || pos < 0)
+
+​    {
+
+​        printf("输入pos值非法，删除节点失败\n");
+
+​        return NULL;
+
+​    }
+
+​    if(length==1)
+
+​    {
+
+​        free(pNode);
+
+​        pNode = NULL;
+
+​        printf("删除pos=%d位置元素成功\n",pos);
+
+​        return pNode;
+
+​    }
+
+​    if(pos == 1)
+
+​    {
+
+​        p = pNode;
+
+​        pNode = pNode->next;
+
+​    }
+
+​    else
+
+​    {
+
+​        while(pos!=i)
+
+​        {
+
+​            q = p;
+
+​            p = p->next;
+
+​            i++;
+
+​        }
+
+​        q->next = q->next->next;
+
+​    }
+
+​    printf("删除pos=%d位置元素成功\n",pos);
+
+​    free(p);
+
+​    return pNode;
+
+}
+
+int menu_select()   //菜单驱动程序
+
+{
+
+​    int sn;
+
+​    printf("实验一运行系统\n");        //显示菜单
+
+​    printf("==============================\n");
+
+​    printf("1、建立单链表\n");
+
+​    printf("2、删除元素\n");
+
+​    printf("3、单链表元素输出\n");
+
+​    printf("0、退出实验\n");
+
+​    printf("==============================\n");
+
+​    printf("请选择0--3:");
+
+​    for (;;)        //菜单功能选择
+
+​    {
+
+​        scanf("%d", &sn);
+
+​        getchar();
+
+​        if (sn < 0 || sn > 3)
+
+​            printf("\n输入选择错误，请重新选择 0--3:");
+
+​        else
+
+​            break;
+
+​    }
+
+​    return sn;
+
+}
+
+int main()
+
+{
+
+​    Node *pList = NULL;
+
+​    int item;
+
+​    for (;;)     // 无限循环,选择0 退出
+
+​    {
+
+​        switch (menu_select())   // 调用菜单函数，按返回值选择功能函数
+
+​        {
+
+​        case 1:
+
+​            printf("请输入单链表节点(大于0的整数):\n");
+
+​            pList = creatList(pList);
+
+​            break;
+
+​        case 2:
+
+​            printf("单链表的删除\n");
+
+​            printf("请输入要删除的标的元素item:");
+
+​            scanf("%d", &item);  //删除顺序表中值为item的元素的函数调用;
+
+​            pList = deletePosElement(pList, item);
+
+​            break;
+
+​        case 3:
+
+​            printf("单链表的输出\n");     //输出通讯者信息的函数调用
+
+​            printList(pList);
+
+​            break;
+
+​        case 0:
+
+​            printf("再见!\n");
+
+​            return 0;
+
+​        }
+
+​    }
+
+}
